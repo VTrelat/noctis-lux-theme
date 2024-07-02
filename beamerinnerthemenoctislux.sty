@@ -1,0 +1,79 @@
+\setbeamertemplate{itemize items}[circle]
+
+% toc
+\defbeamertemplate{section in toc}{circle numbered}{%
+  \leavevmode\leftskip=.5ex%
+  \llap{%
+    \usebeamerfont*{section number projected}%
+    \usebeamercolor{section number projected}%
+    \begin{pgfpicture}{-1ex}{0ex}{1ex}{1ex}
+      \color{noctislux-pink}
+      \pgfpathcircle{\pgfpoint{0pt}{.6ex}}{1.25ex}
+      \pgfusepath{fill}
+      \pgftext[base]{\color{fg}\inserttocsectionnumber}
+    \end{pgfpicture}\kern.5ex%
+  }%
+\kern.5ex\inserttocsection\par}
+\setbeamertemplate{section in toc}[circle numbered]
+\setbeamercolor{section in toc}{fg=noctislux-pink}
+\setbeamerfont{section in toc}{size=\large, series=\bfseries}
+
+\defbeamertemplate{subsection in toc}{circle unnumbered}{%
+  \vspace{0.5ex} % Add vertical padding
+  \leavevmode\leftskip=3ex%
+  \llap{%
+    \begin{pgfpicture}{-1ex}{0ex}{1ex}{1ex}
+      \color{noctislux-blue}
+      \pgfpathcircle{\pgfpoint{0pt}{.6ex}}{.4ex}
+      \pgfusepath{fill}
+    \end{pgfpicture}\kern.5ex%
+  }%
+\kern.5ex\inserttocsubsection\par}
+\setbeamertemplate{subsection in toc}[circle unnumbered]
+\setbeamercolor{subsection in toc}{fg=noctislux-blue}
+\setbeamerfont{subsection in toc}{size=\small}
+
+% blocks
+\setbeamercolor{block title}{fg=noctislux-orange}
+\setbeamerfont{block title}{size=\large, series=\bfseries}
+\setbeamercolor{block body}{fg=noctislux-blue}
+
+% theorem
+\AtBeginEnvironment{theorem}{%
+\setbeamercolor{block title}{fg=noctislux-pink}
+\setbeamercolor{block body}{fg=noctislux-dark-blue}
+}
+
+% example
+\setbeamercolor{block title example}{fg=noctislux-green}
+\setbeamerfont{block body example}{shape=\itshape}
+
+% title page
+\setbeamercolor{title}{fg=noctislux-blue}
+\setbeamerfont{title}{size=\huge, series=\bfseries}
+\setbeamercolor{author}{fg=noctislux-orange}
+\setbeamerfont{author}{size=\large, series=\bfseries}
+\setbeamercolor{institute}{fg=noctislux-orange}
+\setbeamerfont{institute}{size=\normalsize, shape=\itshape}
+\setbeamercolor{date}{fg=noctislux-blue}
+\setbeamerfont{date}{}
+
+% footline
+\setbeamercolor{footline}{fg=noctislux-blue}
+\setbeamerfont{footline}{size=\tiny}
+\setbeamertemplate{footline}{%
+  % progress bar
+  \textcolor{noctislux-blue}{
+    \rule[0pt]{\dimexpr(\paperwidth*\insertframenumber/\inserttotalframenumber)}{2pt}
+  }
+  
+  \begin{beamercolorbox}[wd=\paperwidth,ht=2.25ex,dp=1ex]{footline}
+    \hspace*{1em}
+    \insertshortauthor
+    \hfill
+    \insertshorttitle
+    \hfill
+    \insertframenumber/\inserttotalframenumber
+    \hspace*{1em}
+  \end{beamercolorbox}
+}
