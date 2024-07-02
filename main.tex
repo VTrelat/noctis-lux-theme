@@ -1,0 +1,66 @@
+\documentclass[aspectratio=169]{beamer}
+\usepackage[utf8]{inputenc}
+
+\title{Example Presentation}
+\subtitle{Cool subtitle}
+
+\author{Luc Julia, Luc Julia}
+\institute{Université de Lorraine, CNRS, Inria, Loria, Nancy, France}
+
+\usetheme{noctislux}
+
+\begin{document}
+\begin{frame}[plain, noframenumbering]
+  \maketitle
+\end{frame}
+
+\begin{frame}
+  \tableofcontents
+\end{frame}
+
+\section{Introduction}
+
+\subsection{History}
+
+\frame {
+  \frametitle{Frame title}
+  \begin{block}{Block title}
+  This is a block.
+  \end{block}
+  \begin{theorem}
+  This is a theorem.
+  \begin{equation}
+    \forall a, b \in A.\ \Sigma\ a \implies \xi\ b
+  \end{equation}
+  \end{theorem}
+  \begin{example}
+  This is an example.
+  \end{example}
+}
+
+\subsection{Formalization}
+
+\begin{frame}[fragile]
+  \frametitle{Some Lean}
+  \begin{lstlisting}[language=lean]
+def foo { α : Type } (a : α) : α := a
+  \end{lstlisting}
+\end{frame}
+
+\section{Conclusion}
+
+\frame {
+  \frametitle{Conclusion}
+  \begin{quote}
+  Mais là, tu ne dis rien\dots
+
+  --- Stephan Merz
+  \end{quote}
+  \vfill
+  \begin{quote}
+  Hallo
+
+  --- Peter Lammich
+  \end{quote}
+} 
+\end{document}
