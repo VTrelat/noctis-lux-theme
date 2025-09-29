@@ -1,6 +1,10 @@
 \RequirePackage[sfdefault]{FiraSans}
 \RequirePackage{fontspec}
-\setmonofont{Fira Code}
+\setmonofont[Contextuals={Alternate}]{JetBrains Mono}
+
+\makeatletter
+\renewcommand*\verbatim@nolig@list{}
+\makeatother
 
 \setbeamertemplate{navigation symbols}{}
 
@@ -20,7 +24,7 @@
         {\node[anchor=west] at (0.3,0.61){\usebeamerfont{frametitle}\insertframetitle};}
         \else%
         {\node[anchor= west] at (0.2,0.81){\usebeamerfont{frametitle}\insertframetitle};%
-         \node[anchor= west] at (0.4,0.25){\usebeamerfont{framesubtitle}-\insertframesubtitle};}%
+         \node[anchor= west] at (0.4,0.25){\usebeamerfont{framesubtitle}\itshape\insertframesubtitle};}%
         \fi
     \end{tikzpicture}
   \end{beamercolorbox}

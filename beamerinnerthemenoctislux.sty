@@ -1,3 +1,5 @@
+\RequirePackage{framed}
+
 \setbeamertemplate{itemize items}[circle]
 
 % toc
@@ -13,10 +15,10 @@
       \pgftext[base]{\color{fg}\inserttocsectionnumber}
     \end{pgfpicture}\kern.5ex%
   }%
-\kern.5ex\inserttocsection\par}
+  \kern.5ex\inserttocsection\par}
 \setbeamertemplate{section in toc}[circle numbered]
 \setbeamercolor{section in toc}{fg=noctislux-pink}
-\setbeamerfont{section in toc}{size=\large, series=\bfseries}
+\setbeamerfont{section in toc}{size=\normalsize, series=\bfseries}
 
 \defbeamertemplate{subsection in toc}{circle unnumbered}{%
   \vspace{0.5ex} % Add vertical padding
@@ -28,20 +30,20 @@
       \pgfusepath{fill}
     \end{pgfpicture}\kern.5ex%
   }%
-\kern.5ex\inserttocsubsection\par}
+  \kern.5ex\inserttocsubsection\par}
 \setbeamertemplate{subsection in toc}[circle unnumbered]
 \setbeamercolor{subsection in toc}{fg=noctislux-blue}
 \setbeamerfont{subsection in toc}{size=\small}
 
 % blocks
 \setbeamercolor{block title}{fg=noctislux-orange}
-\setbeamerfont{block title}{size=\large, series=\bfseries}
+\setbeamerfont{block title}{size=\normalsize, series=\bfseries}
 \setbeamercolor{block body}{fg=noctislux-blue}
 
 % theorem
 \AtBeginEnvironment{theorem}{%
-\setbeamercolor{block title}{fg=noctislux-pink}
-\setbeamercolor{block body}{fg=noctislux-dark-blue}
+  \setbeamercolor{block title}{fg=noctislux-pink}%
+  \setbeamercolor{block body}{fg=noctislux-dark-blue}%
 }
 
 % example
@@ -66,7 +68,7 @@
   \textcolor{noctislux-blue}{
     \rule[0pt]{\dimexpr(\paperwidth*\insertframenumber/\inserttotalframenumber)}{2pt}
   }
-  
+
   \begin{beamercolorbox}[wd=\paperwidth,ht=2.25ex,dp=1ex]{footline}
     \hspace*{1em}
     \insertshortauthor
@@ -76,4 +78,48 @@
     \insertframenumber/\inserttotalframenumber
     \hspace*{1em}
   \end{beamercolorbox}
+}
+
+% args: title, color, width (opt), overlay specification
+\renewenvironment<>{block}[3][.9\textwidth]{%
+  \setlength{\textwidth}{#1}
+  \begin{actionenv}#4%
+    \def\insertblocktitle{\color{#3}#2}%
+    \par%
+    \usebeamertemplate{block begin}%
+    \def\FrameCommand
+    {
+      {\color{#3}\vrule width 2.5 pt}
+      \hspace{0pt}
+    }
+    \vspace*{-2ex}\MakeFramed{\hsize\hsize\advance\hsize-\width\FrameRestore}}
+    {\endMakeFramed%
+    \par%
+    \usebeamertemplate{block end}%
+  \end{actionenv}}
+
+\newenvironment<>{code}[1][.9\textwidth]{%
+\setlength{\textwidth}{#1}
+\begin{actionenv}#2%
+  \def\insertblocktitle{}%
+  \par%
+  \usebeamertemplate{block begin}%
+  \def\FrameCommand{%
+    \noindent\hspace*{0.14em}%
+    {\color{noctislux-pink}\vrule width 2.5pt}%
+    \hspace{.5em}%
+  }%
+  \vspace*{-4ex}\MakeFramed{\hsize\hsize\advance\hsize-\width\FrameRestore}%
+  % overlay the Lean logo once, after the frame starts so measurement doesn't eat it
+  \noindent\smash{\hspace*{-1.4em}{\raisebox{-1.5em}{\rotatebox{90}{\scalebox{.4}{\lean}}}}}%
+}%
+{\endMakeFramed%
+\par%
+\usebeamertemplate{block end}%
+\end{actionenv}}
+
+\renewenvironment<>{example}[1][.9\textwidth]{%
+  \begin{block}#2{Example}{noctislux-green}%
+}{%
+  \end{block}%
 }
