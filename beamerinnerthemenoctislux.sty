@@ -1,8 +1,17 @@
-\RequirePackage{framed}
+% beamerinnerthemenoctislux.sty
+% Inner theme for the Noctis-Lux Beamer theme.
+% tcolorbox environments match the PhD-manuscript style (environments.tex).
+% All theorem-like environments accept an optional Beamer overlay spec <...>.
 
+\RequirePackage{framed}
+\RequirePackage{tcolorbox}
+\tcbuselibrary{skins}   % enhanced skin, overlay unbroken and first, attach boxed title
+
+% ---------------------------------------------------------------------------
+% Itemize / TOC
+% ---------------------------------------------------------------------------
 \setbeamertemplate{itemize items}[circle]
 
-% toc
 \defbeamertemplate{section in toc}{circle numbered}{%
   \leavevmode\leftskip=.5ex%
   \llap{%
@@ -35,18 +44,13 @@
 \setbeamercolor{subsection in toc}{fg=noctislux-blue}
 \setbeamerfont{subsection in toc}{size=\small}
 
-% blocks
+% ---------------------------------------------------------------------------
+% Block / code  (original framed environments, kept unchanged)
+% ---------------------------------------------------------------------------
 \setbeamercolor{block title}{fg=noctislux-orange}
 \setbeamerfont{block title}{size=\normalsize, series=\bfseries}
 \setbeamercolor{block body}{fg=noctislux-blue}
 
-% theorem
-\AtBeginEnvironment{theorem}{%
-  \setbeamercolor{block title}{fg=noctislux-pink}%
-  \setbeamercolor{block body}{fg=noctislux-dark-blue}%
-}
-
-% example
 \setbeamercolor{block title example}{fg=noctislux-green}
 \setbeamerfont{block body example}{shape=\itshape}
 
@@ -65,10 +69,11 @@
 \setbeamerfont{footline}{size=\tiny}
 \setbeamertemplate{footline}{%
   % progress bar
-  \textcolor{noctislux-blue}{
-    \rule[0pt]{\dimexpr(\paperwidth*\insertframenumber/\inserttotalframenumber)}{2pt}
-  }
-
+  \begin{beamercolorbox}[wd=\paperwidth,ht=2pt,dp=0pt]{footline}%
+    \textcolor{noctislux-blue}{%
+      \rule[0pt]{\dimexpr\paperwidth*\insertframenumber/\inserttotalframenumber\relax}{2pt}%
+    }%
+  \end{beamercolorbox}%
   \begin{beamercolorbox}[wd=\paperwidth,ht=2.25ex,dp=1ex]{footline}
     \hspace*{1em}
     \insertshortauthor
@@ -118,8 +123,229 @@
 \usebeamertemplate{block end}%
 \end{actionenv}}
 
-\renewenvironment<>{example}[1][.9\textwidth]{%
-  \begin{block}#2{Example}{noctislux-green}%
+% ---------------------------------------------------------------------------
+% Shared counter for tcolorbox theorem-like environments.
+% A single presentation-wide counter increments across all theorem types,
+% just like the PhD manuscript (thmcounter).
+% The counter is stepped BEFORE actionenv so the number is consistent
+% regardless of which overlay slides are active.
+% ---------------------------------------------------------------------------
+\newcounter{nlxthmcounter}
+\renewcommand{\thenlxthmcounter}{\arabic{nlxthmcounter}}
+\resetcounteronoverlays{nlxthmcounter}
+
+% Helper: decorative 6 mm top-left accent bar (drawn inside tcolorbox overlay).
+\newcommand{\tcbenvtopbar}[1]{%
+  \draw[line width=2pt, color=#1, line cap=butt]
+    (frame.north west) -- ([xshift=6mm]frame.north west);%
+}
+
+% ---------------------------------------------------------------------------
+% Base tcb styles.
+% nlxenvbase  : beige bg, no visible frame border, rounded east / sharp west.
+% nlxenvaccent: tinted bg + left bar + floating title tab (solid bg, white text).
+% No 'breakable' — Beamer frames never paginate.
+% ---------------------------------------------------------------------------
+\tcbset{
+  nlxenvbase/.style={
+    enhanced,
+    arc=5pt,
+    sharp corners=west,
+    boxrule=0pt,
+    frame hidden,
+    colback=beige!30,
+    left=8pt, right=8pt, top=4pt, bottom=4pt,
+    before upper={\setlength{\parskip}{4pt}},
+  },
+  nlxenvaccent/.style n args={1}{
+    colback=#1!15,
+    top=10pt,
+    borderline west={2pt}{0pt}{#1},
+    fonttitle=\small\sffamily\bfseries\color{white},
+    attach boxed title to top left={
+      yshift={-\dimexpr\tcboxedtitleheight/2\relax},
+      xshift=6mm,
+    },
+    boxed title style={
+      enhanced,
+      colback=#1,
+      colframe=#1,
+      arc=2pt,
+      boxrule=0pt,
+      left=4pt, right=4pt, top=1pt, bottom=1pt,
+    },
+  },
+}
+
+% ---------------------------------------------------------------------------
+% THEOREM  (pink, boxed title tab)
+% \begin{theorem}<overlay>  ...  \end{theorem}
+% ---------------------------------------------------------------------------
+\@ifundefined{theorem}{}{\let\theorem\relax\let\endtheorem\relax}
+\newenvironment<>{theorem}{%
+  \stepcounter{nlxthmcounter}%
+  \begin{actionenv}#1%
+  \begin{tcolorbox}[
+    nlxenvbase, nlxenvaccent={noctislux-pink},
+    title={Theorem~\thenlxthmcounter},
+    overlay unbroken and first={\tcbenvtopbar{noctislux-pink}},
+  ]%
 }{%
-  \end{block}%
+  \end{tcolorbox}%
+  \end{actionenv}%
+}
+
+% ---------------------------------------------------------------------------
+% LEMMA  (pink, boxed title tab)
+% ---------------------------------------------------------------------------
+\@ifundefined{lemma}{}{\let\lemma\relax\let\endlemma\relax}
+\newenvironment<>{lemma}{%
+  \stepcounter{nlxthmcounter}%
+  \begin{actionenv}#1%
+  \begin{tcolorbox}[
+    nlxenvbase, nlxenvaccent={noctislux-pink},
+    title={Lemma~\thenlxthmcounter},
+    overlay unbroken and first={\tcbenvtopbar{noctislux-pink}},
+  ]%
+}{%
+  \end{tcolorbox}%
+  \end{actionenv}%
+}
+
+% ---------------------------------------------------------------------------
+% COROLLARY  (pink, boxed title tab)
+% ---------------------------------------------------------------------------
+\@ifundefined{corollary}{}{\let\corollary\relax\let\endcorollary\relax}
+\newenvironment<>{corollary}{%
+  \stepcounter{nlxthmcounter}%
+  \begin{actionenv}#1%
+  \begin{tcolorbox}[
+    nlxenvbase, nlxenvaccent={noctislux-pink},
+    title={Corollary~\thenlxthmcounter},
+    overlay unbroken and first={\tcbenvtopbar{noctislux-pink}},
+  ]%
+}{%
+  \end{tcolorbox}%
+  \end{actionenv}%
+}
+
+% ---------------------------------------------------------------------------
+% DEFINITION  (orange, boxed title tab)
+% ---------------------------------------------------------------------------
+\@ifundefined{definition}{}{\let\definition\relax\let\enddefinition\relax}
+\newenvironment<>{definition}{%
+  \stepcounter{nlxthmcounter}%
+  \begin{actionenv}#1%
+  \begin{tcolorbox}[
+    nlxenvbase, nlxenvaccent={noctislux-orange},
+    title={Definition~\thenlxthmcounter},
+    overlay unbroken and first={\tcbenvtopbar{noctislux-orange}},
+  ]%
+}{%
+  \end{tcolorbox}%
+  \end{actionenv}%
+}
+
+% ---------------------------------------------------------------------------
+% EXAMPLE  (green, inline bold label)
+% ---------------------------------------------------------------------------
+\@ifundefined{example}{}{\let\example\relax\let\endexample\relax}
+\newenvironment<>{example}{%
+  \stepcounter{nlxthmcounter}%
+  \begin{actionenv}#1%
+  \begin{tcolorbox}[
+    nlxenvbase,
+    colback=noctislux-green!5,
+    borderline west={2pt}{0pt}{noctislux-green},
+    before upper={%
+      \setlength{\parskip}{4pt}%
+      \textcolor{noctislux-green}{\textbf{Example~\thenlxthmcounter.}}\enspace%
+    },
+  ]%
+}{%
+  \end{tcolorbox}%
+  \end{actionenv}%
+}
+
+% ---------------------------------------------------------------------------
+% REMARK  (blue, inline bold label)
+% ---------------------------------------------------------------------------
+\@ifundefined{remark}{}{\let\remark\relax\let\endremark\relax}
+\newenvironment<>{remark}{%
+  \stepcounter{nlxthmcounter}%
+  \begin{actionenv}#1%
+  \begin{tcolorbox}[
+    nlxenvbase,
+    colback=noctislux-blue!5,
+    borderline west={2pt}{0pt}{noctislux-blue!70},
+    fontupper={\color{noctislux-dark-blue}},
+    before upper={%
+      \setlength{\parskip}{4pt}%
+      \textcolor{noctislux-blue!70}{\textbf{Remark~\thenlxthmcounter.}}\enspace%
+    },
+  ]%
+}{%
+  \end{tcolorbox}%
+  \end{actionenv}%
+}
+
+% ---------------------------------------------------------------------------
+% FACT  (blue, inline bold label, no counter)
+% ---------------------------------------------------------------------------
+\@ifundefined{fact}{}{\let\fact\relax\let\endfact\relax}
+\newenvironment<>{fact}{%
+  \begin{actionenv}#1%
+  \begin{tcolorbox}[
+    nlxenvbase,
+    colback=noctislux-blue!7,
+    borderline west={2pt}{0pt}{noctislux-blue!70},
+    before upper={%
+      \setlength{\parskip}{4pt}%
+      \textcolor{noctislux-blue!70}{\textbf{Fact.}}\enspace%
+    },
+  ]%
+}{%
+  \end{tcolorbox}%
+  \end{actionenv}%
+}
+
+% ---------------------------------------------------------------------------
+% NOTE  (beige/brown, inline bold label, no counter)
+% NB: Beamer's \note{} command is unrelated — \begin{note} is safe to define.
+% ---------------------------------------------------------------------------
+\newenvironment<>{note}{%
+  \begin{actionenv}#1%
+  \begin{tcolorbox}[
+    nlxenvbase,
+    colback=beige!50,
+    borderline west={2pt}{0pt}{beige!70!black},
+    fontupper={\color{beige!40!black}},
+    before upper={%
+      \setlength{\parskip}{4pt}%
+      \textcolor{beige!70!black}{\textbf{Note.}}\enspace%
+    },
+  ]%
+}{%
+  \end{tcolorbox}%
+  \end{actionenv}%
+}
+
+% ---------------------------------------------------------------------------
+% PROOF  (blue tint, italic label, QED flush-right)
+% Beamer defines proof via \newenvironment<>, which internally creates a
+% \beamerx@proof token.  Using \renewenvironment<> here updates it cleanly
+% without triggering the "already defined" error.
+% ---------------------------------------------------------------------------
+\renewenvironment<>{proof}{%
+  \begin{actionenv}#1%
+  \begin{tcolorbox}[
+    nlxenvbase,
+    colback=noctislux-blue!2,
+    borderline west={2pt}{0pt}{noctislux-blue!70},
+    before upper={\setlength{\parskip}{4pt}\textit{Proof.}\enspace},
+    after upper={\unskip\nobreak\hspace*{1em}\hfill\ensuremath{\square}},
+  ]%
+}{%
+  \end{tcolorbox}%
+  \end{actionenv}%
 }

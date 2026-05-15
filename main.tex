@@ -1,10 +1,10 @@
-\documentclass[aspectratio=169]{beamer}
+\documentclass[aspectratio=169, noamssymb]{beamer}
 \usepackage[utf8]{inputenc}
 
 \title{Example Presentation}
-\subtitle{Cool subtitle}
+\subtitle{Short subtitle}
 
-\author{Luc Julia, Luc Julia}
+\author{Vincent Trélat}
 \institute{Université de Lorraine, CNRS, Inria, Loria, Nancy, France}
 
 \usetheme{noctislux}
@@ -20,47 +20,73 @@
 
 \section{Introduction}
 
-\subsection{History}
+\subsection{Environments}
 
 \begin{frame}
-  \frametitle{Frame title}
-  \begin{block}{Block title}{noctislux-dark-blue}
-    This is a block.
-  \end{block}
-  \begin{theorem}{noctislux-orange}
-    This is a theorem.
-    \begin{equation}
-      \forall a, b \in A.\ \Sigma\ a \implies \xi\ b
-    \end{equation}
+  \frametitle{Theorem-like environments}
+  \begin{theorem}
+    For all $a, b \in A$,\ $\Sigma\, a \implies \xi\, b$.
   \end{theorem}
+  \begin{definition}
+    A set $A$ is \emph{finite} if there exists a bijection $A \simeq \{1,\dots,n\}$.
+  \end{definition}
+  \begin{corollary}
+    Every finite set is bounded.
+  \end{corollary}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Inline-label environments}
   \begin{example}
-    This is an example.
+    Let $A = \{1, 2, 3\}$.  Then $|A| = 3$.
   \end{example}
+  \begin{remark}
+    The bound is tight: consider $A = \mathbb{N}$.
+  \end{remark}
+  \begin{fact}
+    Every compact metric space is separable.
+  \end{fact}
+  \begin{note}
+    This result does not extend to arbitrary topological spaces.
+  \end{note}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Proof environment}
+  \begin{lemma}
+    If $f$ is continuous on $[a,b]$, it is uniformly continuous.
+  \end{lemma}
+  \begin{proof}
+    Apply the Heine--Cantor theorem to the compact domain $[a,b]$.
+  \end{proof}
+\end{frame}
+
+\subsection{Overlay support}
+
+\begin{frame}
+  \frametitle{Overlay support}
+  \begin{definition}<1->
+    A function $f : A \to B$ is \emph{injective} if
+    $f(x) = f(y) \implies x = y$.
+  \end{definition}
+  \begin{theorem}<2->
+    An injective function from a finite set to itself is surjective.
+  \end{theorem}
+  \begin{proof}<3->
+    By pigeonhole, injectivity on a finite domain forces surjectivity.
+  \end{proof}
 \end{frame}
 
 \subsection{Formalization}
 
 \begin{frame}[fragile]
   \frametitle{Some Lean}
-  \begin{lstlisting}[language=lean]
+\begin{lstlisting}[language=lean]
 def foo { α : Type } (a : α) : α := a
-  \end{lstlisting}
+\end{lstlisting}
+  \begin{block}{Block title}{noctislux-dark-blue}
+    The \texttt{block} environment is unchanged.
+  \end{block}
 \end{frame}
 
-\section{Conclusion}
-
-\frame {
-  \frametitle{Conclusion}
-  \begin{quote}
-    Mais là, tu ne dis rien\dots
-
-    --- Stephan Merz
-  \end{quote}
-  \vfill
-  \begin{quote}
-    Hallo
-
-    --- Peter Lammich
-  \end{quote}
-}
 \end{document}

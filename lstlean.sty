@@ -218,7 +218,26 @@ extendedchars=true,
 
 
 
-%% Patch listing to accept our unicode characters 
+\lstset{
+  showspaces=false,
+  showstringspaces=false,
+  keepspaces=true,
+  tabsize=2,
+  sensitive=true,
+  breaklines=true,
+  basicstyle={\small\ttfamily\color{black}},
+  captionpos=b,
+  columns=[l]fullflexible,
+  identifierstyle={\ttfamily\color{black}},
+  keywordstyle=[1]{\ttfamily\itshape\color{keywordcolor}},
+  keywordstyle=[2]{\ttfamily\color{sortcolor}},
+  keywordstyle=[3]{\ttfamily\bfseries\color{tacticcolor}},
+  stringstyle={\ttfamily},
+  commentstyle={\ttfamily\footnotesize},
+  % backgroundcolor=\color{beige!40},
+}
+
+%% Patch listing to accept our unicode characters
 \lst@InputCatcodes
 \def\lst@DefEC{%
 	\lst@CCECUse \lst@ProcessLetter

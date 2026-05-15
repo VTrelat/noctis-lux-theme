@@ -1,8 +1,6 @@
 \RequirePackage{listings}
-\RequirePackage{amsmath}
-\RequirePackage{amssymb}
 \RequirePackage{fontspec}
-% \RequirePackage{unicode-math}
+\RequirePackage{unicode-math}
 \RequirePackage{tikz}
 \mode<presentation>
 
@@ -14,6 +12,6 @@
 % \useoutertheme{noctislux}
 % \usecolortheme{noctislux}
 
-\def\lstlanguagefiles{lstlean.tex}
-
+\RequirePackage{lstlean}
+\AtEndPreamble{\RequirePackage{lete-sans-math}}
 \mode<all>
