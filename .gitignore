@@ -1,0 +1,23 @@
+# macOS
+.DS_Store
+
+# LaTeX auxiliary files
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.nav
+*.out
+*.snm
+*.synctex.gz
+*.synctex.gz(busy)
+*.toc
+*.vrb
+*.bbl
+*.bcf
+*.blg
+*.run.xml
+*.tex.bak
+
+# Build output
+main.pdf
