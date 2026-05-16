@@ -64,6 +64,30 @@
 \setbeamercolor{date}{fg=noctislux-blue}
 \setbeamerfont{date}{}
 
+\defbeamertemplate*{title page}{noctislux}{%
+  \vfill
+  \begin{center}
+    {\usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle\par}%
+    \ifx\insertsubtitle\@empty\else%
+      \vskip0.3em%
+      {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+    \fi%
+  \end{center}%
+  \vskip0.75em%
+  \noindent\textcolor{noctislux-orange}{\rule{\linewidth}{2pt}}%
+  \vskip0.75em%
+  \begin{center}%
+    {\usebeamerfont{author}\usebeamercolor[fg]{author}\insertauthor\par}%
+    \ifx\insertinstitute\@empty\else%
+      \vskip0.3em%
+      {\usebeamerfont{institute}\usebeamercolor[fg]{institute}\insertinstitute\par}%
+    \fi%
+    \vskip0.3em%
+    {\usebeamerfont{date}\usebeamercolor[fg]{date}\insertdate\par}%
+  \end{center}%
+  \vfill%
+}
+
 % footline
 \setbeamercolor{footline}{fg=noctislux-blue}
 \setbeamerfont{footline}{size=\tiny}
@@ -133,6 +157,7 @@
 \newcounter{nlxthmcounter}
 \renewcommand{\thenlxthmcounter}{\arabic{nlxthmcounter}}
 \resetcounteronoverlays{nlxthmcounter}
+\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
 
 % Helper: decorative 6 mm top-left accent bar (drawn inside tcolorbox overlay).
 \newcommand{\tcbenvtopbar}[1]{%
@@ -153,7 +178,7 @@
     sharp corners=west,
     boxrule=0pt,
     frame hidden,
-    colback=beige!30,
+    colback=beige,
     left=8pt, right=8pt, top=4pt, bottom=4pt,
     before upper={\setlength{\parskip}{4pt}},
   },
@@ -255,7 +280,7 @@
   \begin{actionenv}#1%
   \begin{tcolorbox}[
     nlxenvbase,
-    colback=noctislux-green!5,
+    colback={noctislux-green!15},
     borderline west={2pt}{0pt}{noctislux-green},
     before upper={%
       \setlength{\parskip}{4pt}%
@@ -276,7 +301,7 @@
   \begin{actionenv}#1%
   \begin{tcolorbox}[
     nlxenvbase,
-    colback=noctislux-blue!5,
+    colback={noctislux-blue!10},
     borderline west={2pt}{0pt}{noctislux-blue!70},
     fontupper={\color{noctislux-dark-blue}},
     before upper={%
@@ -297,7 +322,7 @@
   \begin{actionenv}#1%
   \begin{tcolorbox}[
     nlxenvbase,
-    colback=noctislux-blue!7,
+    colback={noctislux-blue!10},
     borderline west={2pt}{0pt}{noctislux-blue!70},
     before upper={%
       \setlength{\parskip}{4pt}%
@@ -317,7 +342,7 @@
   \begin{actionenv}#1%
   \begin{tcolorbox}[
     nlxenvbase,
-    colback=beige!50,
+    colback={beige!15},
     borderline west={2pt}{0pt}{beige!70!black},
     fontupper={\color{beige!40!black}},
     before upper={%
@@ -343,7 +368,7 @@
     colback=noctislux-blue!2,
     borderline west={2pt}{0pt}{noctislux-blue!70},
     before upper={\setlength{\parskip}{4pt}\textit{Proof.}\enspace},
-    after upper={\unskip\nobreak\hspace*{1em}\hfill\ensuremath{\square}},
+    after upper={\unskip\nobreak\hspace*{1em}\hfill\qedsymbol},
   ]%
 }{%
   \end{tcolorbox}%
